@@ -3,9 +3,8 @@ package projects.mostafagad.task.customviews;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.widget.EditText;
 
-public class English_EditText extends EditText {
+public class English_EditText extends android.support.v7.widget.AppCompatEditText {
 
     public English_EditText(Context context, AttributeSet attrs) {
         super(context, attrs);

@@ -28,7 +28,7 @@
             android:layout_marginTop="@dimen/_5sdp"
             app:crs_pl_fg_color="@color/White"
             app:crs_pl_size="small"
-            app:crs_pl_style="ball_beat" />
+            app:crs_pl_style="ball_pulse" />
 
     </LinearLayout>
 

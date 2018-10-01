@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import me.biubiubiu.justifytext.library.JustifyTextView;
 import projects.mostafagad.task.R;
 import projects.mostafagad.task.models.PostModel;
 
@@ -83,15 +82,14 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder> {
     }
 
     public class Holder extends RecyclerView.ViewHolder {
-        TextView id, title;
-        JustifyTextView body;
+        TextView id, title, body;
 
         public Holder(View view) {
             super(view);
 
-            id = (TextView) itemView.findViewById(R.id.Post_row_TextView_Id);
-            title = (TextView) itemView.findViewById(R.id.Post_row_TextView_Title);
-            body = (JustifyTextView) itemView.findViewById(R.id.Post_row_TextView_Body);
+            id = itemView.findViewById(R.id.Post_row_TextView_Id);
+            title = itemView.findViewById(R.id.Post_row_TextView_Title);
+            body = itemView.findViewById(R.id.Post_row_TextView_Body);
 
 
         }

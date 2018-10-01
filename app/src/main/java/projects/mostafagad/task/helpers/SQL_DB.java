@@ -10,8 +10,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class SQL_DB extends SQLiteOpenHelper {
 
-    public static final String DATA_BASE_NAME = "MostafaGad.db";
-    public static final String TABLE_NAME = "Posts";
+    private static final String DATA_BASE_NAME = "MostafaGad.db";
+    private static final String TABLE_NAME = "Posts";
 
     public SQL_DB(Context context) {
         super(context, DATA_BASE_NAME, null, 3);
@@ -39,10 +39,7 @@ public class SQL_DB extends SQLiteOpenHelper {
         contentValues.put("body", body);
 
         long result = db.insert(TABLE_NAME, null, contentValues);
-        if (result == -1)
-            return false;
-        else
-            return true;
+        return result != -1;
     }
 
     public Cursor getAlldata() {
@@ -65,11 +62,7 @@ public class SQL_DB extends SQLiteOpenHelper {
         Cursor mcursor = db.rawQuery(count, null);
         mcursor.moveToFirst();
         int icount = mcursor.getInt(0);
-        if (icount > 0) {
-            return false;
-        } else {
-            return true;
-        }
+        return icount <= 0;
 
     }
 

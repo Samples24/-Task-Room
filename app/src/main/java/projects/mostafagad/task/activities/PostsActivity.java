@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,7 +39,6 @@ public class PostsActivity extends AppCompatActivity {
     List<PostModel> posts;
     LinearLayoutManager linearLayoutManager;
     public static SQL_DB sql_db;
-    private Menu menu;
     Boolean tableEmpty;
     Long table_rows;
 
@@ -53,30 +53,22 @@ public class PostsActivity extends AppCompatActivity {
         posts = new ArrayList<>();
         sql_db = new SQL_DB(getApplicationContext());
 
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setCustomView(R.layout.action_bar);
 
         tableEmpty = sql_db.CheckTableEmpty();
         table_rows = sql_db.getTableCount();
 
-
-        CheckInternetConnection checkInternetConnection = new CheckInternetConnection(getApplicationContext());
-        boolean IsConnected = checkInternetConnection.IsConnectingtoInternet();
-        if (IsConnected) {
-            LoadData();
-        } else if (!IsConnected && !tableEmpty) {
-            LoadDataOffline();
-        } else if (!IsConnected && tableEmpty) {
-            postsReycler.setVisibility(View.GONE);
-            loading.setVisibility(View.VISIBLE);
-        }
+        LoadData();
 
     }
 
     public void Declare_Controls() {
-        postsReycler = (RecyclerView) findViewById(R.id.Posts_RecyclerView);
-        loading = (LinearLayout) findViewById(R.id.Posts_LoadingLayout);
-        empty = (LinearLayout) findViewById(R.id.history_empty_layout);
+        postsReycler = findViewById(R.id.Posts_RecyclerView);
+        loading = findViewById(R.id.Posts_LoadingLayout);
+        empty = findViewById(R.id.history_empty_layout);
     }
 
     public void initRecycler() {
@@ -94,18 +86,30 @@ public class PostsActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     loading.setVisibility(View.GONE);
                     posts.addAll(response.body());
+                    sql_db.DeleteData();
+                    for (int i = 0; i < response.body().size(); i++) {
+                        sql_db.Add_record(response.body().get(i).getId(), response.body().get(i).getUserId(), response.body().get(i).getTitle(), response.body().get(i).getBody());
+                    }
                     PostsAdapter postsAdapter = new PostsAdapter(getApplicationContext(), posts);
                     postsReycler.setAdapter(postsAdapter);
-                } else {
+                } else if (!response.isSuccessful()) {
                     loading.setVisibility(View.GONE);
-                    LoadDataOffline();
+                    while (!tableEmpty) {
+                        LoadDataOffline();
+                    }
+                } else {
+                    empty.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onFailure(Call<List<PostModel>> call, Throwable t) {
                 loading.setVisibility(View.GONE);
-                LoadDataOffline();
+                if (tableEmpty) {
+                    LoadDataOffline();
+                } else {
+                    empty.setVisibility(View.VISIBLE);
+                }
 
             }
         });

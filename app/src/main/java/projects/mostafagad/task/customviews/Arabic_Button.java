@@ -3,9 +3,8 @@ package projects.mostafagad.task.customviews;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.widget.Button;
 
-public class Arabic_Button extends Button {
+public class Arabic_Button extends android.support.v7.widget.AppCompatButton {
 
     public Arabic_Button(Context context, AttributeSet attrs) {
         super(context, attrs);
