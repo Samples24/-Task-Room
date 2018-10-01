@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">task</string>
+
+    <string name="splash_title">Try and try until you success</string>
+
+    <string name="Postsrow.TextView.id">Id</string>
+    <string name="Postsrow.TextView.title">Title</string>
+
+    <string name="Menu.Share">Share</string>
+    <string name="Menu.English">English</string>
+    <string name="Menu.Arabic">Arabic</string>
+    <string name="Menu.Offline">Offline mode</string>
+
+    <string name="SQLITE.Alert.Empty">No data found</string>
+
+    <string name="Scroll_down">Scroll to end to save data offline</string>
+
+</resources>

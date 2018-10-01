@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">task</string>
+    <string name="splash_title">حاول و حاول حتى تنجح</string>
+
+    <string name="Postsrow.TextView.id">Id</string>
+    <string name="Postsrow.TextView.title">العنوان</string>
+
+    <string name="Menu.Share">مشاركة التطبيق</string>
+    <string name="Menu.English">اللغة الإنجليزية</string>
+    <string name="Menu.Arabic">اللغة العربية</string>
+    <string name="Menu.Offline">وضع عدم الاتصال</string>
+
+    <string name="SQLITE.Alert.Empty">لا توجد نتائج مٌسبقة</string>
+
+    <string name="Scroll_down">توجه لاخر القائمة لحفظ البيانات فى وضع عدم الإتصال</string>
+
+</resources>
