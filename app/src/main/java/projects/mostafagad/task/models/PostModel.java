@@ -20,7 +20,7 @@ public class PostModel {
     @Expose
     private String body;
 
-    private Context context ;
+    private Context context;
 
     public PostModel(Integer userId, Integer id, String title, String body, Context context) {
         this.userId = userId;

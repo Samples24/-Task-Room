@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/_50sdp"
     android:gravity="center"
+    android:layoutDirection="ltr"
     android:orientation="horizontal">
 
     <projects.mostafagad.task.customviews.English_TextView

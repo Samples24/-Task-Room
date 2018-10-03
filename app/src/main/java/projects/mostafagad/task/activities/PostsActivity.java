@@ -2,15 +2,20 @@ package projects.mostafagad.task.activities;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,20 +24,19 @@ import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import projects.mostafagad.task.R;
 import projects.mostafagad.task.adapters.PostsAdapter;
 import projects.mostafagad.task.adapters.PostsAdapter_Offline;
 import projects.mostafagad.task.helpers.CheckInternetConnection;
+import projects.mostafagad.task.helpers.GetPostsTask;
 import projects.mostafagad.task.helpers.Global;
-import projects.mostafagad.task.helpers.MyServices;
 import projects.mostafagad.task.helpers.SQL_DB;
+import projects.mostafagad.task.interfaces.Posts_Interface;
 import projects.mostafagad.task.models.PostModel;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-public class PostsActivity extends AppCompatActivity {
+public class PostsActivity extends AppCompatActivity implements Posts_Interface {
 
     RecyclerView postsReycler;
     LinearLayout loading, empty;
@@ -57,11 +61,14 @@ public class PostsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setCustomView(R.layout.action_bar);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getColor(R.color.Darkblue)));
+        getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.Darkblue));
 
         tableEmpty = sql_db.CheckTableEmpty();
         table_rows = sql_db.getTableCount();
 
-        LoadData();
+
+        new GetPostsTask(getApplicationContext(), this).execute();
 
     }
 
@@ -75,45 +82,6 @@ public class PostsActivity extends AppCompatActivity {
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         postsReycler.setLayoutManager(linearLayoutManager);
         postsReycler.setItemAnimator(new DefaultItemAnimator());
-    }
-
-    public void LoadData() {
-        MyServices.ApiInterface apiInterface = MyServices.getClient().create(MyServices.ApiInterface.class);
-        Call<List<PostModel>> call = apiInterface.GetPosts();
-        call.enqueue(new Callback<List<PostModel>>() {
-            @Override
-            public void onResponse(Call<List<PostModel>> call, Response<List<PostModel>> response) {
-                if (response.isSuccessful()) {
-                    loading.setVisibility(View.GONE);
-                    posts.addAll(response.body());
-                    sql_db.DeleteData();
-                    for (int i = 0; i < response.body().size(); i++) {
-                        sql_db.Add_record(response.body().get(i).getId(), response.body().get(i).getUserId(), response.body().get(i).getTitle(), response.body().get(i).getBody());
-                    }
-                    PostsAdapter postsAdapter = new PostsAdapter(getApplicationContext(), posts);
-                    postsReycler.setAdapter(postsAdapter);
-                } else if (!response.isSuccessful()) {
-                    loading.setVisibility(View.GONE);
-                    while (!tableEmpty) {
-                        LoadDataOffline();
-                    }
-                } else {
-                    empty.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<PostModel>> call, Throwable t) {
-                loading.setVisibility(View.GONE);
-                if (tableEmpty) {
-                    LoadDataOffline();
-                } else {
-                    empty.setVisibility(View.VISIBLE);
-                }
-
-            }
-        });
-
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -134,7 +102,6 @@ public class PostsActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -144,12 +111,30 @@ public class PostsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.Menu_Arabic:
+                setLocale("ar");
+                break;
+            case R.id.Menu_English:
+                setLocale("en");
+                break;
             case android.R.id.home:
                 startActivity(new Intent(getApplicationContext(), splash.class));
         }
         return super.onOptionsItemSelected(item);
     }
 
+
+    public void setLocale(String lang) {
+        Locale myLocale = new Locale(lang);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+        Intent refresh = new Intent(this, splash.class);
+        startActivity(refresh);
+        finish();
+    }
 
     public void LoadDataOffline() {
         Cursor cursor = sql_db.getAlldata();
@@ -172,6 +157,24 @@ public class PostsActivity extends AppCompatActivity {
                 postsReycler.setAdapter(myadapter);
             }
         }
+
+    }
+
+    @Override
+    public void onSuccess(List<PostModel> postModels) {
+        loading.setVisibility(View.GONE);
+        posts.clear();
+        posts.addAll(postModels);
+        PostsAdapter postsAdapter = new PostsAdapter(getApplicationContext(), posts);
+        postsReycler.setAdapter(postsAdapter);
+
+    }
+
+    @Override
+    public void onError(String paramString) {
+        loading.setVisibility(View.GONE);
+        Global.makeLongToast(getApplicationContext(), paramString, 5000);
+        LoadDataOffline();
 
     }
 }

@@ -10,7 +10,22 @@
         app:showAsAction="always"></item>
 
 
+    <item
+        android:icon="@drawable/ic_language_white_24dp"
+        android:title="@null"
+        app:showAsAction="always">
+        <menu xmlns:android="http://schemas.android.com/apk/res/android">
+            <item
+                android:id="@+id/Menu.English"
+                android:title="@string/Menu.English"
+                app:showAsAction="never"></item>
 
+            <item
+                android:id="@+id/Menu.Arabic"
+                android:title="@string/Menu.Arabic"
+                app:showAsAction="never"></item>
+        </menu>
+    </item>
 
 
 </menu>

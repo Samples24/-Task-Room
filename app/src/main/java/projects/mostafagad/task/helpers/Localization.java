@@ -12,8 +12,6 @@ public class Localization {
     Locale myLocale;
 
 
-
-
     @SuppressWarnings("deprecation")
     public void setSystemLocaleLegacy(Configuration config, Locale locale) {
         config.locale = locale;

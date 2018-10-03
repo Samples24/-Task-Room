@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 public class Global {
 
+    private Context context;
     private static final int SHORT_TOAST_DURATION = 2000;
 
     public static void makeLongToast(Context context, String text, long durationInMillis) {

@@ -22,7 +22,7 @@
             android:gravity="center"
             android:text="@string/Postsrow.TextView.id"
             android:textColor="@color/White"
-            android:textSize="30sp" />
+            android:textSize="25sp" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -40,9 +40,11 @@
                 android:background="@drawable/shadow"
                 android:gravity="center"
                 android:hint="@string/Postsrow.TextView.title"
+                android:padding="@dimen/_5sdp"
+                android:singleLine="true"
                 android:textColor="@color/Black"
                 android:textColorHint="@color/Black"
-                android:textSize="20sp" />
+                android:textSize="10sp" />
 
 
             <projects.mostafagad.task.customviews.English_TextView
@@ -52,12 +54,11 @@
                 android:layout_marginTop="@dimen/_2sdp"
                 android:layout_weight="3"
                 android:background="@drawable/shadow"
-                android:ems="5"
-                android:maxEms="5"
-                android:maxLines="3"
+                android:gravity="start"
+                android:lines="2"
+                android:minEms="8"
                 android:padding="@dimen/_5sdp"
-                android:textColor="@color/Black"
-                android:textSize="15sp" />
+                android:textColor="@color/Black" />
 
 
         </LinearLayout>

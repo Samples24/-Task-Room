@@ -7,24 +7,19 @@ import android.net.NetworkInfo;
 
 public class CheckInternetConnection {
 
-    private Context context ;
-    public CheckInternetConnection(Context context)
-    {
-        this.context = context ;
+    private Context context;
+
+    public CheckInternetConnection(Context context) {
+        this.context = context;
     }
 
-    public boolean IsConnectingtoInternet()
-    {
+    public boolean IsConnectingtoInternet() {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivityManager != null)
-        {
+        if (connectivityManager != null) {
             NetworkInfo info = connectivityManager.getActiveNetworkInfo();
-            if (info != null && info.isConnected())
-            {
-                return true;
-            }
+            return info != null && info.isConnected();
         }
-    return false;
+        return false;
     }
 
 
