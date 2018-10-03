@@ -14,4 +14,7 @@
 
     <string name="Scroll_down">توجه لاخر القائمة لحفظ البيانات فى وضع عدم الإتصال</string>
 
+    <string name="error_connection">خطأ فى الاتصال</string>
+    <string name="offline_mode">وضع عدم الاتصال</string>
+
 </resources>

@@ -3,7 +3,6 @@ package projects.mostafagad.task.listeners;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.List;
@@ -45,7 +44,7 @@ public class Posts_Listener {
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
-                        sinterface.onError(e.getMessage());
+                        sinterface.onError();
 
                     }
                 }
@@ -54,9 +53,7 @@ public class Posts_Listener {
             @Override
             public void onFailure(Call<List<PostModel>> call, Throwable t) {
                 Log.i("Response Failure", t.getMessage());
-                sinterface.onError(t.getMessage());
-                Toast.makeText(context, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
-
+                sinterface.onError();
             }
         });
     }

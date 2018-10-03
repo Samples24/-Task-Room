@@ -9,7 +9,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -30,10 +29,10 @@ import projects.mostafagad.task.R;
 import projects.mostafagad.task.adapters.PostsAdapter;
 import projects.mostafagad.task.adapters.PostsAdapter_Offline;
 import projects.mostafagad.task.helpers.CheckInternetConnection;
-import projects.mostafagad.task.helpers.GetPostsTask;
 import projects.mostafagad.task.helpers.Global;
 import projects.mostafagad.task.helpers.SQL_DB;
 import projects.mostafagad.task.interfaces.Posts_Interface;
+import projects.mostafagad.task.listeners.Posts_Listener;
 import projects.mostafagad.task.models.PostModel;
 
 public class PostsActivity extends AppCompatActivity implements Posts_Interface {
@@ -61,14 +60,14 @@ public class PostsActivity extends AppCompatActivity implements Posts_Interface 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setCustomView(R.layout.action_bar);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getColor(R.color.Darkblue)));
-        getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.Darkblue));
-
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.DarkBlue)));
+        if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().setStatusBarColor(getResources().getColor(R.color.DarkBlue));
+        }
         tableEmpty = sql_db.CheckTableEmpty();
         table_rows = sql_db.getTableCount();
 
-
-        new GetPostsTask(getApplicationContext(), this).execute();
+        LoadPosts();
 
     }
 
@@ -82,6 +81,11 @@ public class PostsActivity extends AppCompatActivity implements Posts_Interface 
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         postsReycler.setLayoutManager(linearLayoutManager);
         postsReycler.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    public void LoadPosts() {
+        Posts_Listener posts_listener = new Posts_Listener(getApplicationContext(), this);
+        posts_listener.getPosts();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -171,9 +175,10 @@ public class PostsActivity extends AppCompatActivity implements Posts_Interface 
     }
 
     @Override
-    public void onError(String paramString) {
+    public void onError() {
         loading.setVisibility(View.GONE);
-        Global.makeLongToast(getApplicationContext(), paramString, 5000);
+        Global.makeLongToast(getApplicationContext(), getResources().getString(R.string.error_connection), 3000);
+        Global.makeLongToast(getApplicationContext(), getResources().getString(R.string.offline_mode), 3000);
         LoadDataOffline();
 
     }

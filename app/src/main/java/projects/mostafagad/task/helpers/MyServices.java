@@ -20,6 +20,32 @@ import retrofit2.http.GET;
 public class MyServices {
 
 
+    private static Retrofit retrofit;
+
+    public ApiInterface getAPI() {
+
+        final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .readTimeout(Constants.Services_readTimeout, TimeUnit.SECONDS)
+                .connectTimeout(Constants.Services_connectTimeout, TimeUnit.SECONDS)
+                .build();
+
+        Retrofit retrofit = new Retrofit
+                .Builder()
+                .baseUrl(Constants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .client(getUnsafeOkHttpClient().build())
+                .build();
+
+        return retrofit.create(ApiInterface.class);
+    }
+
+    public interface ApiInterface {
+
+        @GET("posts")
+        Call<List<PostModel>> GetPosts();
+    }
+
     public static OkHttpClient.Builder getUnsafeOkHttpClient() {
 
         try {
@@ -62,27 +88,6 @@ public class MyServices {
         }
     }
 
-
-    private static Retrofit retrofit;
-
-    public ApiInterface getAPI() {
-
-        final OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .readTimeout(Constants.Services_readTimeout, TimeUnit.SECONDS)
-                .connectTimeout(Constants.Services_connectTimeout, TimeUnit.SECONDS)
-                .build();
-
-        Retrofit retrofit = new Retrofit
-                .Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okHttpClient)
-                .client(getUnsafeOkHttpClient().build())
-                .build();
-
-        return retrofit.create(ApiInterface.class);
-    }
-
     public ApiInterface getDistanceAPI() {
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .readTimeout(Constants.Services_readTimeout, TimeUnit.SECONDS)
@@ -95,12 +100,6 @@ public class MyServices {
                 .client(okHttpClient)
                 .build();
         return retrofit.create(ApiInterface.class);
-    }
-
-    public interface ApiInterface {
-
-        @GET("posts")
-        Call<List<PostModel>> GetPosts();
     }
 
 }

@@ -14,4 +14,6 @@
 
     <string name="Scroll_down">Scroll to end to save data offline</string>
 
+    <string name="error_connection">Error connection</string>
+    <string name="offline_mode">Offline mode</string>
 </resources>
