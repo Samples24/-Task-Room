@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg"
-    tools:context=".activities.PostsActivity">
+    tools:context="projects.mostafagad.task_Room.activities.PostsActivity">
 
     <LinearLayout
         android:id="@+id/history_empty_layout"
@@ -20,7 +20,7 @@
             android:layout_height="@dimen/_110sdp"
             android:background="@drawable/ic_empty" />
 
-        <projects.mostafagad.task.customviews.Arabic_TextView
+        <projects.mostafagad.task_Room.customviews.English_TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
@@ -28,7 +28,6 @@
             android:textColor="@color/White"
             android:textSize="@dimen/_20sdp" />
     </LinearLayout>
-
 
     <LinearLayout
         android:id="@+id/Posts_LoadingLayout"
@@ -52,4 +51,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/_5sdp"></android.support.v7.widget.RecyclerView>
+
+
 </FrameLayout>

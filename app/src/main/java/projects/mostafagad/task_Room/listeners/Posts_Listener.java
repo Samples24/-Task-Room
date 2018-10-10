@@ -1,0 +1,54 @@
+package projects.mostafagad.task_Room.listeners;
+
+
+import android.content.Context;
+import android.util.Log;
+
+import java.io.IOException;
+import java.util.List;
+
+import projects.mostafagad.task_Room.helpers.MyServices;
+import projects.mostafagad.task_Room.interfaces.Posts_Interface;
+import projects.mostafagad.task_Room.models.PostModel;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class Posts_Listener {
+
+    private final Context context;
+    private final Posts_Interface sinterface;
+    MyServices services;
+
+
+    public Posts_Listener(Context context, Posts_Interface sinterface) {
+        this.context = context;
+        this.sinterface = sinterface;
+        this.services = new MyServices();
+
+    }
+
+
+    public void getPosts() {
+        services.getAPI().GetPosts().enqueue(new Callback<List<PostModel>>() {
+            @Override
+            public void onResponse(Call<List<PostModel>> call, Response<List<PostModel>> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        sinterface.onSuccess(response.body());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        sinterface.onError();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<PostModel>> call, Throwable t) {
+                Log.i("Response Failure", t.getMessage());
+                sinterface.onError();
+            }
+        });
+    }
+
+}

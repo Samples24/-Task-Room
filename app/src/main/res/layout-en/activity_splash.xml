@@ -7,7 +7,7 @@
     android:background="@drawable/bg"
     android:orientation="vertical"
     android:weightSum="5"
-    tools:context=".activities.splash">
+    tools:context="projects.mostafagad.task_Room.activities.splash">
 
 
     <LinearLayout

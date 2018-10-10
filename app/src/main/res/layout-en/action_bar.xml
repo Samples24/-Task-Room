@@ -6,7 +6,7 @@
     android:layoutDirection="ltr"
     android:orientation="horizontal">
 
-    <projects.mostafagad.task.customviews.English_TextView
+    <projects.mostafagad.task_Room.customviews.English_TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"

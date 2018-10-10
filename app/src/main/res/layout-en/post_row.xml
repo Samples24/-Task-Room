@@ -13,7 +13,7 @@
         android:padding="@dimen/_5sdp"
         android:weightSum="5">
 
-        <projects.mostafagad.task.customviews.English_NumberTextView
+        <projects.mostafagad.task_Room.customviews.English_NumberTextView
             android:id="@+id/Post_row_TextView_Id"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -32,7 +32,7 @@
             android:padding="@dimen/_5sdp"
             android:weightSum="4">
 
-            <projects.mostafagad.task.customviews.English_TextView
+            <projects.mostafagad.task_Room.customviews.English_TextView
                 android:id="@+id/Post_row_TextView_Title"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -47,7 +47,7 @@
                 android:textSize="10sp" />
 
 
-            <projects.mostafagad.task.customviews.English_TextView
+            <projects.mostafagad.task_Room.customviews.English_TextView
                 android:id="@+id/Post_row_TextView_Body"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
