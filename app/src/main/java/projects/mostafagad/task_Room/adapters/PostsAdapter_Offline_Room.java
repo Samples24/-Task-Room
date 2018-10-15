@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import projects.mostafagad.task_Room.models.PostModel;
 import projects.mostafagad.task_Room.models.PostModel_Room;
 import projects.mostafagad.taskv2.R;
 
@@ -25,6 +26,22 @@ public class PostsAdapter_Offline_Room extends RecyclerView.Adapter<PostsAdapter
     public PostsAdapter_Offline_Room(Context context, List<PostModel_Room> posts) {
         this.context = context;
         this.posts = posts;
+    }
+
+
+    private static PostsAdapter_Offline_Room instance;
+
+    public static PostsAdapter_Offline_Room getInstance(Context context, List<PostModel_Room> posts) {
+        if (instance == null) {
+            synchronized (PostModel.class) {
+                if (instance == null) {
+                    System.out.println("getInstance(): First time getInstance was invoked!");
+                    instance = new PostsAdapter_Offline_Room(context, posts);
+                }
+            }
+        }
+
+        return instance;
     }
 
     @NonNull

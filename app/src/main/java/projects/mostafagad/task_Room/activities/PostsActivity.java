@@ -96,8 +96,7 @@ public class PostsActivity extends AppCompatActivity implements Posts_Interface 
 
 
     public void LoadPosts() {
-        Posts_Listener posts_listener = new Posts_Listener(getApplicationContext(), this);
-        posts_listener.getPosts();
+        Posts_Listener.getInstance(getApplicationContext(), this).getPosts();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -106,8 +105,9 @@ public class PostsActivity extends AppCompatActivity implements Posts_Interface 
 
         MenuItem offline_item = menu.findItem(R.id.Menu_Offline);
 
-        CheckInternetConnection checkInternetConnection = new CheckInternetConnection(getApplicationContext());
-        boolean isConnected = checkInternetConnection.IsConnectingtoInternet();
+
+        //SingleTon
+        boolean isConnected = CheckInternetConnection.getInstance(getApplicationContext()).IsConnectingtoInternet();
         if (isConnected) {
             offline_item.setVisible(false);
         } else {
@@ -155,8 +155,7 @@ public class PostsActivity extends AppCompatActivity implements Posts_Interface 
 
     public void LoadDataOfflineRoom() {
         posts_ = roomDataBase.oper().GetData();
-        PostsAdapter_Offline_Room postsActivity_realm = new PostsAdapter_Offline_Room(getApplicationContext(), posts_);
-        postsReycler.setAdapter(postsActivity_realm);
+        postsReycler.setAdapter(PostsAdapter_Offline_Room.getInstance(getApplicationContext(), posts_));
 
     }
 
@@ -165,12 +164,15 @@ public class PostsActivity extends AppCompatActivity implements Posts_Interface 
         loading.setVisibility(View.GONE);
         posts.clear();
         posts.addAll(postModels);
-        PostsAdapter postsAdapter = new PostsAdapter(getApplicationContext(), posts);
-        postsReycler.setAdapter(postsAdapter);
+
+        // SingleTon
+        postsReycler.setAdapter(PostsAdapter.getInstance(getApplicationContext(), posts));
 
         roomDataBase.oper().Delete();
         for (int i = 0; i < postModels.size(); i++) {
-            PostModel_Room postModel_room = new PostModel_Room();
+
+            //SingleTon
+            PostModel_Room postModel_room = PostModel_Room.getInstance(postModels.get(i).getUserId(), postModels.get(i).getUserId(), postModels.get(i).getTitle(), postModels.get(i).getBody());
             postModel_room.setId(postModels.get(i).getId());
             postModel_room.setUserId(postModels.get(i).getUserId());
             postModel_room.setTitle(postModels.get(i).getTitle());

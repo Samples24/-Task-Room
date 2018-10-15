@@ -21,11 +21,27 @@ public class Posts_Listener {
     MyServices services;
 
 
+    private static Posts_Listener instance;
+
+
     public Posts_Listener(Context context, Posts_Interface sinterface) {
         this.context = context;
         this.sinterface = sinterface;
         this.services = new MyServices();
 
+    }
+
+    public static Posts_Listener getInstance(Context context, Posts_Interface sinterface) {
+        if (instance == null) {
+            synchronized (PostModel.class) {
+                if (instance == null) {
+                    System.out.println("getInstance(): First time getInstance was invoked!");
+                    instance = new Posts_Listener(context, sinterface);
+                }
+            }
+        }
+
+        return instance;
     }
 
 

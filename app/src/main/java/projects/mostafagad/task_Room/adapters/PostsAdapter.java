@@ -30,6 +30,21 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder> {
         this.posts = posts;
     }
 
+    private static PostsAdapter instance;
+
+    public static PostsAdapter getInstance(Context context, List<PostModel> posts) {
+        if (instance == null) {
+            synchronized (PostModel.class) {
+                if (instance == null) {
+                    System.out.println("getInstance(): First time getInstance was invoked!");
+                    instance = new PostsAdapter(context, posts);
+                }
+            }
+        }
+
+        return instance;
+    }
+
     @Override
     public PostsAdapter.Holder onCreateViewHolder(ViewGroup parent, int viewType) {
         View item = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_row, null);
@@ -43,8 +58,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder> {
         PostModel current_obj = posts.get(position);
         Holder.id.setText(String.valueOf(current_obj.getId()));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Holder.title.setText(Html.fromHtml(current_obj.getTitle() , Html.FROM_HTML_MODE_COMPACT));
-            Holder.title.setText(Html.fromHtml(current_obj.getTitle() , Html.FROM_HTML_MODE_COMPACT));
+            Holder.title.setText(Html.fromHtml(current_obj.getTitle(), Html.FROM_HTML_MODE_COMPACT));
+            Holder.title.setText(Html.fromHtml(current_obj.getTitle(), Html.FROM_HTML_MODE_COMPACT));
         }
         Holder.body.setText(current_obj.getBody());
 
