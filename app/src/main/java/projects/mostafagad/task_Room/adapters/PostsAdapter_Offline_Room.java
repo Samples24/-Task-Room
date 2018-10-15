@@ -1,8 +1,10 @@
 package projects.mostafagad.task_Room.adapters;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,9 +58,10 @@ public class PostsAdapter_Offline_Room extends RecyclerView.Adapter<PostsAdapter
     public void onBindViewHolder(final PostsAdapter_Offline_Room.Holder Holder, final int position) {
         PostModel_Room current_obj = posts.get(position);
         Holder.id.setText(String.valueOf(current_obj.getId()));
-        Holder.title.setText(current_obj.getTitle());
-        Holder.body.setText(current_obj.getBody());
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Holder.title.setText(Html.fromHtml(current_obj.getTitle(), Html.FROM_HTML_MODE_COMPACT));
+            Holder.body.setText(Html.fromHtml(current_obj.getBody(), Html.FROM_HTML_MODE_COMPACT));
+        }
 
         Holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

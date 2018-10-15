@@ -59,10 +59,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.Holder> {
         Holder.id.setText(String.valueOf(current_obj.getId()));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Holder.title.setText(Html.fromHtml(current_obj.getTitle(), Html.FROM_HTML_MODE_COMPACT));
-            Holder.title.setText(Html.fromHtml(current_obj.getTitle(), Html.FROM_HTML_MODE_COMPACT));
+            Holder.body.setText(Html.fromHtml(current_obj.getBody(), Html.FROM_HTML_MODE_COMPACT));
         }
-        Holder.body.setText(current_obj.getBody());
-
 
         Holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
